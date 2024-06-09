@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Ingresar Producto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form class="ion-padding" [formGroup]="addProductoForm">
+    <ion-item>
+      <ion-input placeholder="Nombre Producto" formControlName="nombre" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input placeholder="Cantidad" formControlName="cantidad"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input placeholder="Valor" type="number" formControlName="valor"></ion-input>
+    </ion-item>
+    <br>
+    <div class="buttons">
+
+      <ion-button slot="end" color="warning" (click)="close()">Cancelar</ion-button>
+      <ion-button (click)="addProducto()" color="success" [disabled]="addProductoForm.invalid">Registrar</ion-button>
+    </div>
+
+  </form>
+
+</ion-content>

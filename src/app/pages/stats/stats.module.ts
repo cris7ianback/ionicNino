@@ -16,7 +16,8 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     CommonModule,
     FormsModule,
     IonicModule,
-    StatsPageRoutingModule, NgApexchartsModule
+    StatsPageRoutingModule,
+    NgApexchartsModule
 
 
 

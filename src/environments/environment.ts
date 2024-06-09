@@ -8,8 +8,8 @@ export const environment = {
 
 
   token: 'tryToCatchTheC4T',
-  // URL: 'http://localhost:3000/api',
-  URL: 'http://cris7ianback.co/api'
+  URL: 'http://localhost:3000/api',
+  // URL: 'http://cris7ianback.co/api'
 };
 
 /*

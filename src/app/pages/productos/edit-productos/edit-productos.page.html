@@ -1,0 +1,31 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">Cancelar</ion-button>
+    </ion-buttons>
+    <ion-title>Editar Producto</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="editProducto()" [strong]="true" [disabled]="formEditProducto.invalid">Editar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+  <form class="ion-padding" [formGroup]="formEditProducto">
+    <ion-item>
+      <ion-input placeholder="Nombre Producto" formControlName="nombre" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input placeholder="Cantidad" formControlName="cantidad"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input placeholder="Valor" type="number" formControlName="valor"></ion-input>
+    </ion-item>
+    <br>
+
+  </form>
+
+</ion-content>

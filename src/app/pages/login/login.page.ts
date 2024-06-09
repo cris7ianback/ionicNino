@@ -93,7 +93,7 @@ export class LoginPage implements OnInit {
             switch (res.status) {
               case 201:
                 this.estado_admin = true;
-                this.router.navigate(['stats']);
+                this.router.navigate(['/home']);
                 // sessionStorage.setItem('home', 'activos');
                 // this.messageService.menssageSuccessful('Acceso Administrador', 'Bienvenido Administrador');
                 break;
