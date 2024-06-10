@@ -1,0 +1,20 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">Cancelar</ion-button>
+    </ion-buttons>
+    <ion-title>Ingresar Cliente</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="addCliente()" [strong]="true" [disabled]="addformCliente.invalid">Registrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form class=" ion-padding" [formGroup]="addformCliente">
+    <ion-item>
+      <ion-input placeholder="Nombre Cliente" formControlName="nombre" type="text"></ion-input>
+    </ion-item>
+  </form>
+
+</ion-content>

@@ -2,8 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ModalController, ActionSheetController, AlertController } from '@ionic/angular';
 import { ProductosService } from 'src/app/pages/productos/productos.service';
 import { AddProductoPage } from '../add-producto/add-producto.page';
-import { IonModal } from '@ionic/angular';
-import { OverlayEventDetail } from '@ionic/core/components';
 import { EditProductosPage } from '../edit-productos/edit-productos.page';
 @Component({
   selector: 'app-productos',

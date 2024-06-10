@@ -27,33 +27,23 @@ const routes: Routes = [
   },
   {
     path: 'productos',
-    loadChildren: () => import('./pages/productos/list-productos/productos.module').then( m => m.ProductosPageModule)
+    loadChildren: () => import('./pages/productos/productos.module').then(m => m.ProductosPageModule)
   },
-  {
-    path: 'add-producto',
-    loadChildren: () => import('./pages/productos/add-producto/add-producto.module').then( m => m.AddProductoPageModule)
-  },
+
   {
     path: 'list-usuarios',
-    loadChildren: () => import('./pages/usuarios/list-usuarios/list-usuarios.module').then( m => m.ListUsuariosPageModule)
+    loadChildren: () => import('./pages/usuarios/list-usuarios/list-usuarios.module').then(m => m.ListUsuariosPageModule)
   },
   {
     path: 'list-inversion',
-    loadChildren: () => import('./pages/inversion/list-inversion/list-inversion.module').then( m => m.ListInversionPageModule)
+    loadChildren: () => import('./pages/inversion/list-inversion/list-inversion.module').then(m => m.ListInversionPageModule)
   },
   {
     path: 'list-clientes',
-    loadChildren: () => import('./pages/clientes/list-clientes/list-clientes.module').then( m => m.ListClientesPageModule)
+    loadChildren: () => import('./pages/clientes/list-clientes.module').then(m => m.ListClientesPageModule)
   },
-  {
-    path: 'edit-productos',
-    loadChildren: () => import('./pages/productos/edit-productos/edit-productos.module').then( m => m.EditProductosPageModule)
-  },
-  {
-    path: 'confirm-delete',
-    loadChildren: () => import('./pages/shared/confirm-delete/confirm-delete.module').then( m => m.ConfirmDeletePageModule)
-  },
-  
+
+
 ];
 
 @NgModule({

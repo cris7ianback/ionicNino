@@ -27,6 +27,7 @@ export class ProductosService {
   editProducto(data: any, idProducto: number) {
     return this.http.put<any>(this.URL + `/editProducto/${idProducto}`, data)
   }
+
   listProductoId(idProducto: any): Observable<any> {
     return this.http.get<any[]>(this.URL + `/searchProductoId/${idProducto}`)
   }

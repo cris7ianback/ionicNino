@@ -96,8 +96,6 @@ export class StatsPage implements OnInit {
   productosVendidos() {
 
     this.statsService.productosVendidos().subscribe((data: any[]) => {
-      console.log(data)
-
       const categories = data.map(item => item.Producto); // Obtener las etiquetas del eje x
       const values = data.map(item => item.cantidadVendida);
 
@@ -153,8 +151,6 @@ export class StatsPage implements OnInit {
   ventasDiarias() {
 
     this.statsService.ventasDiarias().subscribe((data: any[]) => {
-      console.log(data)
-
       const categories = data.map(item => item.ventas); // Obtener las etiquetas del eje x
       const values = data.map(item => item.fecha);
 

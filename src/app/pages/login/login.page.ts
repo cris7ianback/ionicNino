@@ -62,14 +62,13 @@ export class LoginPage implements OnInit {
     if (this.authService.getToken()) {
       this.isLoggedIn = true;
       this.roles = this.usuarioService.getUser().roles;
-      console.log(this.roles)
     }
   }
 
   login(): void {
 
 
-    console.log(this.loginForm.value)
+
 
     this.incorrecta = false;
     const { username, password } = this.loginForm.value;
@@ -80,15 +79,13 @@ export class LoginPage implements OnInit {
 
     this.authService.login(this.loginForm.value).subscribe(
       res => {
-        console.log(res)
-        console.log(this.loginForm.value)
+ 
         this.auditoria = { usuario: this.loginForm.value.username, modulo: 'Login', accion: `Inicio de Sesión` }
-        // this.auditService.insertAuditLogin(this.auditoria).subscribe((res: any) => { })
 
         localStorage.setItem('token', res.token);
         this.authService.isRolId().subscribe(
           (res) => {
-            console.log(res)
+  
 
             switch (res.status) {
               case 201:
