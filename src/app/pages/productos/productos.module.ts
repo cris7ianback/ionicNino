@@ -9,6 +9,7 @@ import { ProductosPageRoutingModule } from './productos-routing.module';
 import { ProductosPage } from './list-productos/productos.page';
 import { AddProductoPage } from './add-producto/add-producto.page';
 import { EditProductosPage } from './edit-productos/edit-productos.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
 
@@ -23,6 +24,7 @@ import { EditProductosPage } from './edit-productos/edit-productos.page';
     IonicModule,
     ProductosPageRoutingModule,
     ReactiveFormsModule,
+    ComponentsModule
   ],
 })
 export class ProductosPageModule { }

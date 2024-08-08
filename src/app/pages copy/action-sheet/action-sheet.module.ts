@@ -4,26 +4,19 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { StatsPageRoutingModule } from './stats-routing.module';
+import { ActionSheetPageRoutingModule } from './action-sheet-routing.module';
 
-import { StatsPage } from './stats.page';
-import { NgApexchartsModule } from 'ng-apexcharts';
+import { ActionSheetPage } from './action-sheet.page';
 import { ComponentsModule } from 'src/app/components/components.module';
-
-
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    StatsPageRoutingModule,
-    NgApexchartsModule,
+    ActionSheetPageRoutingModule,
     ComponentsModule
-
-
-
   ],
-  declarations: [StatsPage]
+  declarations: [ActionSheetPage]
 })
-export class StatsPageModule { }
+export class ActionSheetPageModule { }

@@ -1,7 +1,9 @@
 {
   "name": "ionicNino",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {
+
+    }
   },
   "type": "angular"
 }

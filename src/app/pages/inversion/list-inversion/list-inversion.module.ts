@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { ListInversionPageRoutingModule } from './list-inversion-routing.module';
 
 import { ListInversionPage } from './list-inversion.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ListInversionPageRoutingModule
+    ListInversionPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [ListInversionPage]
 })
-export class ListInversionPageModule {}
+export class ListInversionPageModule { }
