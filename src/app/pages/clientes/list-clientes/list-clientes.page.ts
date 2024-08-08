@@ -34,6 +34,7 @@ export class ListClientesPage implements OnInit {
   listarClientes() {
     this.clientesService.listClientes().subscribe((res: any) => {
       this.listClientes = res;
+      console.log(this.listClientes)
     })
   }
 
