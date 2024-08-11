@@ -1,8 +1,15 @@
-<ion-header>
+<ion-header class="ion-no-border" translucent="">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home" text="Regresar" color="primary"></ion-back-button>
     </ion-buttons>
     <ion-title class="ion-text-capitalize">{{titulo}}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="clickEvent.emit()" color="primary">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>

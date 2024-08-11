@@ -1,0 +1,8 @@
+  {
+    "/api": {
+      "target": "https://cris7ianback.co",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug"
+    }
+  }

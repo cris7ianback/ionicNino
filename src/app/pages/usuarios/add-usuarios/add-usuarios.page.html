@@ -1,0 +1,41 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Agregar Usuario</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cancelar()" color="danger">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+
+    <form [formGroup]="formAddUsuario" autocomplete="off">
+
+
+
+      <ion-item>
+        <ion-input labelPlacement="floating" formControlName="nombre">
+          <div slot="label">Nombre: <ion-text color="danger">*</ion-text></div>
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input labelPlacement="floating" formControlName="username">
+          <div slot="label">RUT: <ion-text color="danger">*</ion-text></div>
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input labelPlacement="floating" formControlName="password" type="password">
+          <div slot="label">Password: <ion-text color="danger">*</ion-text></div>
+        </ion-input>
+      </ion-item>
+
+      <ion-button expand="block" (click)="addUsuario()"> Agregar </ion-button>
+     </form>
+
+  </ion-list>
+</ion-content>

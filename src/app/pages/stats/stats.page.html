@@ -1,27 +1,56 @@
 <app-header titulo="Stats"></app-header>
 
-<ion-content [fullscreen]="true">
-  <!-- <ion-header collapse="condense">
+<ion-content class="ion-padding">
 
-    <ion-toolbar>
-      <ion-title size="large"> Stats</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-list>
+    <!-- GANANCIAS -->
+    <ion-item>
+      <ion-avatar slot="start">
+        <img src="assets/img/wallet.png" alt="">
+      </ion-avatar>
+      <ion-label>Total Balance </ion-label>
+      <p> {{ gananciasActual }}</p>
+    </ion-item>
 
-  <ion-title>
+    <!-- PENDIENTE -->
+    <ion-item>
+      <ion-avatar slot="start">
+        <img src="assets/img/pendiente.png" alt="">
+      </ion-avatar>
+      <ion-label>Total Pendiente </ion-label>
+      <p> {{vPendienteTotal?.total | currency:'$':'symbol':'1.0-0' }}</p>
+    </ion-item>
 
-    <div id="chart"></div>
-    <div id="chart2"></div>
-    <div id="chart3"></div>
-  </ion-title>
+    <!-- PROYECCIÓN GANANCIAS -->
+    <ion-item>
+      <ion-avatar slot="start">
+        <img src="assets/img/ganancia.png" alt="">
+      </ion-avatar>
+      <ion-label> Proyección Ganancias </ion-label>
+      <p>{{proyeccion?.proyeccionVentas | currency:'$':'symbol':'1.0-0' }}</p>
+    </ion-item>
 
-  <ion-content>
+    <!-- INVERSIÓN -->
+    <ion-item>
+      <ion-avatar slot="start">
+        <img src="assets/img/inversion.png" alt="">
+      </ion-avatar>
+      <ion-label> Inversión </ion-label>
+      <p> {{ inversionActual }}</p>
+    </ion-item>
 
-  </ion-content>
-
-  <ion-content>
-
-  </ion-content> -->
-
+  </ion-list>
+  
+  <h2> Stock de Productos </h2>
+  <ion-list>
+    <ion-item-sliding *ngFor="let producto of productosStock ">
+      <ion-item>
+        <ion-label>
+          <p> {{producto.nombre}} </p>
+        </ion-label>
+        <ion-label slot="end" class="ion-text-end text-small">{{producto.cantidad}} </ion-label>
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
 
 </ion-content>
