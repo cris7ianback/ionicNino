@@ -1,8 +1,10 @@
-<ion-content [fullscreen]="true">
-  <div>
-    <ion-title class="header"> Bienvenido</ion-title>
+<!-- <ion-content>
+  <div class="center-content">
+    <h1>Contenido Centrado</h1>
   </div>
+</ion-content>
 
+<ion-content [fullscreen]="true">
   <form class="ion-padding" [formGroup]="loginForm">
     <ion-item>
       <ion-input placeholder="username"></ion-input>
@@ -16,5 +18,34 @@
     <ion-button (click)="login()">Let's Go!</ion-button>
 
   </form>
+
+</ion-content> -->
+
+
+<!-- <ion-header>
+  <ion-toolbar>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+  <div id="header">
+    <h1>Login</h1>
+    <img src="../../../assets/img/logo.jpeg" alt="">
+  </div>
+
+  <form id="form" class="ion-padding" [formGroup]="loginForm">
+    <ion-item>
+      <ion-input placeholder="username"></ion-input>
+      <ion-icon name="person-outline"></ion-icon>
+    </ion-item>
+    <ion-item>
+      <ion-input placeholder="password" type="password"></ion-input>
+      <ion-icon name="lock-closed-outline"></ion-icon>
+    </ion-item>
+    <br>
+    <ion-button (click)="login()" expand="block">Let's Go!</ion-button>
+
+  </form>
+
 
 </ion-content>

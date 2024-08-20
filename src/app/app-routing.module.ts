@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { RegistroComprasPage } from './pages/clientes/registro-compras/registro-compras.page';
 
 const routes: Routes = [
 
@@ -44,16 +45,17 @@ const routes: Routes = [
   },
   {
     path: 'add-usuarios',
-    loadChildren: () => import('./pages/usuarios/add-usuarios/add-usuarios.module').then( m => m.AddUsuariosPageModule)
+    loadChildren: () => import('./pages/usuarios/add-usuarios/add-usuarios.module').then(m => m.AddUsuariosPageModule)
   },
   {
     path: 'edit-usuarios',
-    loadChildren: () => import('./pages/usuarios/edit-usuarios/edit-usuarios.module').then( m => m.EditUsuariosPageModule)
+    loadChildren: () => import('./pages/usuarios/edit-usuarios/edit-usuarios.module').then(m => m.EditUsuariosPageModule)
   },
   {
     path: 'edit-password',
-    loadChildren: () => import('./pages/usuarios/edit-password/edit-password.module').then( m => m.EditPasswordPageModule)
+    loadChildren: () => import('./pages/usuarios/edit-password/edit-password.module').then(m => m.EditPasswordPageModule)
   },
+  { path: 'admin/registrarCompra/:idCliente', component: RegistroComprasPage },
 
 
 ];

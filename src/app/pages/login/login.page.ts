@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 import { UsuarioService } from 'src/app/service/usuario.service';
 import * as CryptoJS from 'crypto-js';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -43,7 +44,7 @@ export class LoginPage implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private usuarioService: UsuarioService,
-    // private messageService: MessagesService,
+    private toastCtrl: ToastController,
 
   ) {
     this.loginForm = this.fb.group({
@@ -65,7 +66,7 @@ export class LoginPage implements OnInit {
     }
   }
 
-  login(): void {
+  async login() {
 
 
 
@@ -79,18 +80,19 @@ export class LoginPage implements OnInit {
 
     this.authService.login(this.loginForm.value).subscribe(
       res => {
- 
+
         this.auditoria = { usuario: this.loginForm.value.username, modulo: 'Login', accion: `Inicio de Sesión` }
 
         localStorage.setItem('token', res.token);
         this.authService.isRolId().subscribe(
           (res) => {
-  
+
 
             switch (res.status) {
               case 201:
                 this.estado_admin = true;
                 this.router.navigate(['/home']);
+                this.presentToast('Bienvenido!', 'success');
                 // sessionStorage.setItem('home', 'activos');
                 // this.messageService.menssageSuccessful('Acceso Administrador', 'Bienvenido Administrador');
                 break;
@@ -112,7 +114,7 @@ export class LoginPage implements OnInit {
       (serverLoginError: any) => {
         if (serverLoginError.status != 200) {
 
-          // this.messageService.menssageCritical('Acceso Denegado', 'Error de Contraseña o username');
+          this.presentToast('Error de contraseña o usuario', 'danger');
           this.incorrecta = true;
         }
       }
@@ -133,6 +135,15 @@ export class LoginPage implements OnInit {
       this.loginForm.controls[username].errors &&
       this.loginForm.controls[username].touched
     );
+  }
+
+  async presentToast(message: string, color: 'success' | 'danger' | 'warning') {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 2000,
+      color,
+    });
+    await toast.present();
   }
 
 }

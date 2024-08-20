@@ -1,25 +1,43 @@
-.input {
-    font-size: 300;
+ion-toolbar {
+    --background: #000000
 }
 
-ion-item {
-    --background: #686767;
-    border-radius: 10px;
-    margin-bottom: 16px;
+ion-content {
+    --background: #000
 }
 
-.header {
-    margin-top: 100px;
-    margin-bottom: 80px;
-    text-align: center;
+#header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-    .subTitle {
-        color: gray;
-        font-size: 0.9rem;
-
+    h1 {
+        font-weight: 700;
+        font-size: 26px;
+        color: white;
+        margin-bottom: 15%;
     }
 
-    title {
-        font-size: 2rem;
+    img {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        border: 4px solid;
     }
+}
+
+#form {
+    margin-top: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+
+    ion-button {
+        margin-top: 35px;
+        height: 48px;
+        font-size: 18px;
+        text-transform: initial;
+        border-radius: 50px;
+        box-shadow: 1px 8px 8px 0px rgba(0, 0, 0, 0.05);
+    }
+
 }

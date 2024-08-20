@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ClientesService } from '../clientes.service';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-add-cliente',
@@ -10,12 +10,13 @@ import { ModalController } from '@ionic/angular';
 })
 export class AddClientePage implements OnInit {
 
-  public addformCliente!: FormGroup;
+  addformCliente!: FormGroup;
 
   constructor(
+    private clientesService: ClientesService,
     private fb: FormBuilder,
     private modalCtrl: ModalController,
-    private clientesService: ClientesService
+    private toastCtrl: ToastController
   ) {
     this.addformCliente = this.fb.group({
       nombre: ['', [Validators.required]]
@@ -25,29 +26,39 @@ export class AddClientePage implements OnInit {
   ngOnInit() {
   }
 
-  addCliente() {
+  async addCliente() {
 
     if (this.addformCliente.valid) {
-      this.clientesService.addCliente(this.addformCliente.value).subscribe({
-        next: (res: any) => {
-          if (res.status === 'success') {
-            this.close();
-            console.log("Producto Ingresado")
-          }
-        },
-        error: (error: any) => {
-          if (error.error.status === 'failed') {
-            console.log("Erorr al Ingresar")
-
-          }
+      try {
+        const response = await this.clientesService.addCliente(this.addformCliente.value).toPromise();
+        if (response.status === 'success') {
+          await this.presentToast('Cliente Añadido con éxito', 'success');
+          await this.modalCtrl.dismiss({ success: true });
+        } else {
+          await this.presentToast('Error al añadir Cliente', 'danger');
+          await this.modalCtrl.dismiss({ success: false });
         }
-      })
+      } catch (error) {
+        await this.presentToast('Error al añadir cliente', 'danger');
+        await this.modalCtrl.dismiss({ success: false });
+      }
+
+
     }
 
   }
 
-  async close() {
-    await this.modalCtrl.dismiss();
+  async presentToast(message: string, color: 'success' | 'danger' | 'warning') {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 2000,
+      color,
+    });
+    await toast.present();
+  }
+
+  cancelar() {
+    this.modalCtrl.dismiss();
   }
 
 }

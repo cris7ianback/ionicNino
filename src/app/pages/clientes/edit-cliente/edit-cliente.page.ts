@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ModalController } from '@ionic/angular';
+import { ClientesService } from '../clientes.service';
 
 @Component({
   selector: 'app-edit-cliente',
@@ -7,9 +10,51 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditClientePage implements OnInit {
 
-  constructor() { }
+  @Input() cliente: any;
+  formEditCliente: FormGroup;
+
+  constructor(
+    private fb: FormBuilder,
+    private modalCtrl: ModalController,
+    private clientesService: ClientesService
+  ) {
+    this.formEditCliente = this.fb.group({
+      nombre: ['', [Validators.required, Validators.minLength(3)]]
+    });
+  }
 
   ngOnInit() {
+    if (this.cliente) {
+      this.formEditCliente?.patchValue({
+        nombre: this.cliente.nombre
+      });
+    }
   }
+
+  dismiss() {
+    this.modalCtrl.dismiss();
+  }
+
+  async editCliente() {
+    if (this.formEditCliente?.valid) {
+      try {
+        await this.clientesService.editCliente(this.formEditCliente.value, this.cliente.idCliente).toPromise();
+        await this.modalCtrl.dismiss({ success: true });
+      } catch (error) {
+        console.error('Error al editar usuario', error);
+      }
+    }
+  }
+
+  campoEsValido(campo: string) {
+    return (
+      this.formEditCliente?.controls[campo].errors &&
+      this.formEditCliente?.controls[campo].touched
+    );
+  }
+
+  public hasError = (controlName: string, errorName: string) => {
+    return this.formEditCliente?.controls[controlName].hasError(errorName);
+  };
 
 }

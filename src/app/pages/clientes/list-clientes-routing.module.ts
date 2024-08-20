@@ -15,6 +15,10 @@ const routes: Routes = [
   {
     path: 'edit-cliente',
     loadChildren: () => import('./edit-cliente/edit-cliente.module').then( m => m.EditClientePageModule)
+  },
+  {
+    path: 'registro-compras',
+    loadChildren: () => import('./registro-compras/registro-compras.module').then( m => m.RegistroComprasPageModule)
   }
 
 ];
