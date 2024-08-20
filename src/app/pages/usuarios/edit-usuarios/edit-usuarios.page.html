@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Editar Usuario</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="formEditUser" (ngSubmit)="editUser()">
+    <ion-item>
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input formControlName="nombre"></ion-input>
+    </ion-item>
+
+    <ion-item lines="none" *ngIf="campoEsValido('nombre')">
+      <ion-text color="danger">
+        <p *ngIf="hasError('nombre', 'required')">El nombre es obligatorio.</p>
+        <p *ngIf="hasError('nombre', 'minlength')">El nombre debe tener al menos 3 caracteres.</p>
+      </ion-text>
+    </ion-item>
+
+    <ion-button expand="full" type="submit" [disabled]="!formEditUser.valid">
+      Guardar Cambios
+    </ion-button>
+  </form>
+</ion-content>

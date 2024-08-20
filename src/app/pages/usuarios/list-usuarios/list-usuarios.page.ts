@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, AlertController, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { UsuarioService } from 'src/app/service/usuario.service';
 import { AddUsuariosPage } from '../add-usuarios/add-usuarios.page';
+import { EditUsuariosPage } from '../edit-usuarios/edit-usuarios.page';
+import { EditPasswordPage } from '../edit-password/edit-password.page';
 
 @Component({
   selector: 'app-list-usuarios',
@@ -10,10 +12,9 @@ import { AddUsuariosPage } from '../add-usuarios/add-usuarios.page';
 })
 export class ListUsuariosPage implements OnInit {
 
-  // usuarios: any;
   usuarios: any[] = [];
   loading?: HTMLIonLoadingElement;
-  textoBuscar: string = ''
+  textoBuscar: string = '';
 
   constructor(
     private alertCtrl: AlertController,
@@ -21,7 +22,7 @@ export class ListUsuariosPage implements OnInit {
     private loadingCtrl: LoadingController,
     private modalCtrl: ModalController,
     private toastCtrl: ToastController,
-    private usuariosService: UsuarioService,
+    private usuariosService: UsuarioService
   ) { }
 
   ngOnInit() {
@@ -29,32 +30,26 @@ export class ListUsuariosPage implements OnInit {
   }
 
   async getUsuarios(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.usuariosService.listUsuarios().subscribe((usuarios: any) => {
-        this.usuarios = usuarios;
-        resolve();
-      }, (error) => {
-        reject(error)
-      })
-    })
+    try {
+      const usuarios = await this.usuariosService.listUsuarios().toPromise();
+      this.usuarios = usuarios;
+    } catch (error) {
+      console.error('Error al cargar los usuarios', error);
+      await this.presentToast('Error al cargar los usuarios', 'danger');
+    }
   }
 
   async loadData() {
-    const loading = await this.loadingCtrl.create({
+    this.loading = await this.loadingCtrl.create({
       message: 'Cargando...',
       spinner: 'crescent'
     });
-
-    await loading.present();
+    await this.loading.present();
 
     try {
-      await Promise.all([
-        this.getUsuarios()
-      ])
-    } catch (error) {
-      console.error('Error al cargar la data', error);
+      await this.getUsuarios();
     } finally {
-      await loading.dismiss();
+      await this.loading.dismiss();
     }
   }
 
@@ -72,10 +67,20 @@ export class ListUsuariosPage implements OnInit {
     if (data && data.success) {
       await this.loadData();
     }
-    // }
-
   }
 
+  async editUsuario(usuario: any) {
+    const modal = await this.modalCtrl.create({
+      component: EditUsuariosPage,
+      componentProps: { usuario }  // Enviar el usuario a editar
+    });
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.success) {
+      await this.loadData();
+    }
+  }
 
   async presentActionSheet(usuario: any) {
     const actionSheet = await this.actionSheetCtrl.create({
@@ -85,9 +90,14 @@ export class ListUsuariosPage implements OnInit {
           text: 'Editar',
           icon: 'create',
           handler: () => {
-            // Implementar la lógica para editar el usuario
-            console.log('Editar usuario', usuario);
-            // this.editUsuario(usuario);
+            this.editUsuario(usuario);
+          }
+        },
+        {
+          text: 'Cambiar Contraseña',
+          icon: 'key',
+          handler: () => {
+            this.changeUserPassword(usuario);
           }
         },
         {
@@ -95,9 +105,7 @@ export class ListUsuariosPage implements OnInit {
           icon: 'trash',
           role: 'destructive',
           handler: () => {
-            this.deleteUsuario(usuario),
-              console.log('Eliminar usuario', usuario);
-            // this.deleteUsuario(usuario);
+            this.deleteUsuario(usuario);
           }
         },
         {
@@ -110,7 +118,6 @@ export class ListUsuariosPage implements OnInit {
 
     await actionSheet.present();
   }
-
 
   async deleteUsuario(usuario: any) {
     const alert = await this.alertCtrl.create({
@@ -141,15 +148,28 @@ export class ListUsuariosPage implements OnInit {
     });
 
     await alert.present();
+  }
 
+  async changeUserPassword(usuario: any) {
+    const modal = await this.modalCtrl.create({
+      component: EditPasswordPage,
+      componentProps: { usuarioId: usuario.idUser }  // Pasa el id del usuario
+    });
+
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.success) {
+      await this.presentToast('Contraseña cambiada con éxito', 'success');
+    }
   }
 
   async presentToast(message: string, color: 'success' | 'danger' | 'warning') {
     const toast = await this.toastCtrl.create({
-      message, duration: 2000, color,
+      message,
+      duration: 2000,
+      color,
     });
     await toast.present();
   }
-
-
 }

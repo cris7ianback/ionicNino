@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ClientesService } from '../clientes.service';
 import { AddClientePage } from '../add-cliente/add-cliente.page';
 import { ModalController } from '@ionic/angular';
+import { EditClientePage } from '../edit-cliente/edit-cliente.page';
 
 @Component({
   selector: 'app-list-clientes',
@@ -28,7 +29,16 @@ export class ListClientesPage implements OnInit {
 
     return modal.present();
   }
-  editCliente(idCliente: any) { }
+
+  async editCliente(idCliente: any) {
+
+    const modal = await this.modalCtrl.create({
+      component: EditClientePage
+    });
+
+    return modal.present();
+
+  }
   deleteCliente(idCliente: any) { }
 
   listarClientes() {

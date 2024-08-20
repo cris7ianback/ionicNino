@@ -46,6 +46,14 @@ const routes: Routes = [
     path: 'add-usuarios',
     loadChildren: () => import('./pages/usuarios/add-usuarios/add-usuarios.module').then( m => m.AddUsuariosPageModule)
   },
+  {
+    path: 'edit-usuarios',
+    loadChildren: () => import('./pages/usuarios/edit-usuarios/edit-usuarios.module').then( m => m.EditUsuariosPageModule)
+  },
+  {
+    path: 'edit-password',
+    loadChildren: () => import('./pages/usuarios/edit-password/edit-password.module').then( m => m.EditPasswordPageModule)
+  },
 
 
 ];

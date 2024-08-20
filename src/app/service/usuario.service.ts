@@ -15,17 +15,20 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) { }
 
-  // FUNCIONANDO
+  // FUNCIONANDO --IMPLEMENTANDO
   listUsuarios(): Observable<any> {
     return this.http.get<any[]>(this.URL + '/listUsuarios')
   }
 
-  //IMPLEMENTANDO
 
   addUsuario(usuario: any): Observable<any> {
     return this.http.post<any[]>(this.URL + '/addUsuario', usuario)
   }
 
+
+  deleteUsuario(idUser: any) {
+    return this.http.delete(this.URL + `/deleteUsuario/${idUser}`);
+  }
 
 
 
@@ -35,9 +38,6 @@ export class UsuarioService {
 
   }
 
-  deleteUsuario(idUser: any) {
-    return this.http.delete(this.URL + `/deleteUsuario/${idUser}`);
-  }
 
   getUser(): any {
     const user = window.sessionStorage.getItem(USER_KEY);
