@@ -55,7 +55,9 @@ const routes: Routes = [
     path: 'edit-password',
     loadChildren: () => import('./pages/usuarios/edit-password/edit-password.module').then(m => m.EditPasswordPageModule)
   },
-  { path: 'admin/registrarCompra/:idCliente', component: RegistroComprasPage },
+  {
+    path: 'registrarCompra/:idCliente', component: RegistroComprasPage
+  },
 
 
 ];

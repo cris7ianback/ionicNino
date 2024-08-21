@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { ClientesService } from '../clientes.service';
+import { ClientesService } from '../../../service/clientes.service';
 
 @Component({
   selector: 'app-edit-cliente',

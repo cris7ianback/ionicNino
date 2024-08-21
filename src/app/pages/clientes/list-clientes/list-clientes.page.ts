@@ -1,6 +1,7 @@
+import { ComprasService } from './../../../service/compras.service';
 import { RegistroComprasPage } from './../registro-compras/registro-compras.page';
 import { Component, OnInit } from '@angular/core';
-import { ClientesService } from '../clientes.service';
+import { ClientesService } from '../../../service/clientes.service';
 import { AddClientePage } from '../add-cliente/add-cliente.page';
 import { ActionSheetController, AlertController, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { EditClientePage } from '../edit-cliente/edit-cliente.page';
@@ -27,10 +28,12 @@ export class ListClientesPage implements OnInit {
     private modalCtrl: ModalController,
     private toastCtrl: ToastController,
     private router: Router,
+    private comprasService: ComprasService
   ) { }
 
   ngOnInit() {
-    this.listarClientes()
+    this.loadData();
+    // this.listarClientes()
   }
 
 
@@ -110,7 +113,9 @@ export class ListClientesPage implements OnInit {
           text: 'Comprar',
           icon: 'bag-handle-outline',
           handler: () => {
-            this.registrarCompra(cliente.idCliente, cliente.nombre);
+            console.log(cliente.idCliente)
+            // this.registrarCompra(cliente.idCliente, cliente.nombre);
+            this.router.navigate(['/registrarCompra', cliente.idCliente])
           }
         },
         {
@@ -174,9 +179,42 @@ export class ListClientesPage implements OnInit {
     }
   }
 
+
+  async pagarTodo(idCliente: string, state: any) {
+    const alert = await this.alertCtrl.create({
+      header: 'Confirmar Pago',
+      message: '¿Está seguro que desea saldar deuda?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Pago cancelado');
+          }
+        },
+        {
+          text: 'Pagar',
+          handler: () => {
+            console.log('Pagar todo confirmado');
+            // Lógica para proceder con el pago
+            state = 'pagado'
+            this.comprasService.pagarTodo(idCliente, state).subscribe((res: any) => {
+              this.ngOnInit();
+
+            })
+          }
+        }
+      ]
+
+    })
+    await alert.present();
+  }
+
   registrarCompra(idCliente: any, nombre: any) {
-    this.router.navigate(['registrarCompra', idCliente])
+    this.router.navigate(['/registrarCompra', idCliente])
 
   }
+
 
 }

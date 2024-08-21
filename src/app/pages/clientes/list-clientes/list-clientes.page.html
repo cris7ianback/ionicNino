@@ -8,12 +8,26 @@
   <ion-list>
 
     <ion-item-sliding *ngFor="let clientes of listClientes | filtro:searchText">
-      <ion-item (click)="presentActionSheet(clientes)">
-        <ion-label>
-          <ion-label>{{clientes.nombre}}</ion-label>
-          <p side="end">{{clientes.totalCompras}}</p>
-        </ion-label>
+
+      <ion-item>
+        <ion-icon name="cash-outline" slot="start" style="color: rgb(0, 255, 166); font-size: 24px;"
+          (click)="pagarTodo(clientes.idCliente, clientes.state)" *ngIf="clientes.totalCompras != 0"></ion-icon>
+        <ion-label (click)="presentActionSheet(clientes)">{{clientes.nombre}}</ion-label>
+        <ion-label slot="end">{{clientes.totalCompras | currency:'USD':'symbol':'1.0-0'}}</ion-label>
       </ion-item>
+
+      <!-- <ion-label>
+        <ion-icon slot="icon-only" name="cash-outline"
+          (click)="pagarTodo(clientes.idCliente, clientes.state)"></ion-icon>
+      </ion-label> -->
+
+      <!-- <ion-item (click)="presentActionSheet(clientes)">
+        <ion-label>
+          <ion-label slot="start" class="ion-text-start">{{clientes.nombre}}</ion-label>
+          <ion-label slot="" class="ion-text-end">{{clientes.totalCompras |currency:'USD':'symbol':'1.0-0'
+            }}</ion-label>
+        </ion-label>
+      </ion-item> -->
 
 
 

@@ -19,6 +19,10 @@ const routes: Routes = [
   {
     path: 'registro-compras',
     loadChildren: () => import('./registro-compras/registro-compras.module').then( m => m.RegistroComprasPageModule)
+  },
+  {
+    path: 'add-compra',
+    loadChildren: () => import('./add-compra/add-compra.module').then( m => m.AddCompraPageModule)
   }
 
 ];
