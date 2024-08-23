@@ -15,11 +15,11 @@ import { Router } from '@angular/router';
 })
 export class ListClientesPage implements OnInit {
   // Control para el texto de búsqueda
-  searchControl: FormControl = new FormControl('');
-  listClientes: any;
-  searchText: string = '';
+  // searchControl: FormControl = new FormControl('');
+  // searchText: string = '';
+  clientes: any[] = [];
   loading?: HTMLIonLoadingElement;
-  textoBuscar: string = '';
+  filteredItems: any[] = [];
   constructor(
     private actionSheetCtrl: ActionSheetController,
     private alertCtrl: AlertController,
@@ -28,12 +28,10 @@ export class ListClientesPage implements OnInit {
     private modalCtrl: ModalController,
     private toastCtrl: ToastController,
     private router: Router,
-    private comprasService: ComprasService
-  ) { }
+    private comprasService: ComprasService) { }
 
   ngOnInit() {
     this.loadData();
-    // this.listarClientes()
   }
 
 
@@ -95,14 +93,18 @@ export class ListClientesPage implements OnInit {
     await alert.present();
   }
 
-  listarClientes() {
-    this.clientesService.listClientes().subscribe((res: any) => {
-      this.listClientes = res;
-    })
-  }
+  async listarClientes(): Promise<void> {
 
-  onSearchChange(event: any) {
-    this.textoBuscar = event.detail.value;
+    try {
+      const listClientes = await this.clientesService.listClientes().toPromise();
+      this.clientes = listClientes;
+      this.filteredItems = [...this.clientes]
+
+    } catch (error) {
+      console.error('Error al cargar los usuarios', error);
+      await this.presentToast('Error al cargar los clientes', 'danger');
+    }
+
   }
 
   async presentActionSheet(cliente: any) {
@@ -114,7 +116,6 @@ export class ListClientesPage implements OnInit {
           icon: 'bag-handle-outline',
           handler: () => {
             console.log(cliente.idCliente)
-            // this.registrarCompra(cliente.idCliente, cliente.nombre);
             this.router.navigate(['/registrarCompra', cliente.idCliente])
           }
         },
@@ -145,6 +146,8 @@ export class ListClientesPage implements OnInit {
     await actionSheet.present();
   }
 
+
+
   async loadData() {
     this.loading = await this.loadingCtrl.create({
       message: 'Cargando...',
@@ -172,7 +175,8 @@ export class ListClientesPage implements OnInit {
   async getClientes(): Promise<void> {
     try {
       const clientes = await this.clientesService.listClientes().toPromise();
-      this.listClientes = clientes;
+      this.clientes = clientes;
+      this.filteredItems = [...this.clientes]
     } catch (error) {
       console.error('Error al cargar los clientes', error);
       await this.presentToast('Error al cargar los clientes', 'danger');
@@ -216,5 +220,23 @@ export class ListClientesPage implements OnInit {
 
   }
 
+  filterItems(event: any) {
+    const searchTerm = event.target.value.toLowerCase();
+
+    this.filteredItems = this.clientes.filter((item: any) => {
+      return item.nombre.toLowerCase().includes(searchTerm)
+    });
+  }
+
+  async doRefresh(event: any) {
+    try {
+      await this.loadData();
+      event.target.complete();
+
+    } catch (error) {
+      console.error('Error al refrescar los datos', error);
+      event.target.complete(); 
+    }
+  }
 
 }

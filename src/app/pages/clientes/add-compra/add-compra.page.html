@@ -1,13 +1,59 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>addCompra</ion-title>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="cancelar()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Registrar Compra</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">addCompra</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <form [formGroup]="formAddCompra">
+    <!-- Selector de producto -->
+    <ion-item>
+      <ion-label position="stacked">Producto</ion-label>
+      <ion-select formControlName="idProducto" interface="popover" [(ngModel)]="selected"
+        (ionChange)="productoSelected($event)">
+        <ion-select-option *ngFor="let par of productos" [value]="par">
+          {{ par.nombre }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Cantidad -->
+    <ion-item>
+      <ion-label position="stacked">Cantidad</ion-label>
+      <ion-input type="number" formControlName="cantidad" placeholder="Ingrese la cantidad"></ion-input>
+      <ion-note slot="error" color="danger"
+        *ngIf="formAddCompra.get('cantidad')?.invalid && formAddCompra.get('cantidad')?.touched">
+        Debe completar el campo antes de continuar.
+      </ion-note>
+    </ion-item>
+
+    <!-- Valor -->
+    <ion-item>
+      <ion-label position="stacked">Valor</ion-label>
+      <ion-input type="text" formControlName="valor" [value]="selected?.valor" readonly></ion-input>
+    </ion-item>
+
+    <!-- Botones -->
+    <ion-footer class="ion-no-border">
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button color="medium" (click)="cancelar()">
+            <ion-icon slot="start" name="close-circle"></ion-icon>
+            Cancelar
+          </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button color="success" expand="block" [disabled]="formAddCompra.invalid" (click)="addProducto(selected)">
+            <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+            Agregar
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+  </form>
 </ion-content>

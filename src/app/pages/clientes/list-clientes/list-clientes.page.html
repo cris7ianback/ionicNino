@@ -1,42 +1,22 @@
 <app-header titulo="Clientes" (clickEvent)="addCliente()"></app-header>
 <ion-content class="ion-padding">
 
-  <ion-searchbar placeholder="Buscar .." inputmode="text" (ionChange)="onSearchChange($event)" animated
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingText="Desliza hacia abajo para refrescar"></ion-refresher-content>
+  </ion-refresher>
+  <ion-searchbar placeholder="Buscar .." inputmode="text" (ionInput)="filterItems($event)" animated
     [debounce]="250"></ion-searchbar>
 
 
   <ion-list>
-
-    <ion-item-sliding *ngFor="let clientes of listClientes | filtro:searchText">
-
+    <ion-item-sliding *ngFor="let clientes of filteredItems">
       <ion-item>
         <ion-icon name="cash-outline" slot="start" style="color: rgb(0, 255, 166); font-size: 24px;"
           (click)="pagarTodo(clientes.idCliente, clientes.state)" *ngIf="clientes.totalCompras != 0"></ion-icon>
-        <ion-label (click)="presentActionSheet(clientes)">{{clientes.nombre}}</ion-label>
-        <ion-label slot="end">{{clientes.totalCompras | currency:'USD':'symbol':'1.0-0'}}</ion-label>
+        <ion-label (click)="presentActionSheet(clientes)"> {{clientes.nombre}} </ion-label>
+        <ion-label slot="end"> {{clientes.totalCompras | currency:'USD':'symbol':'1.0-0'}}</ion-label>
       </ion-item>
 
-      <!-- <ion-label>
-        <ion-icon slot="icon-only" name="cash-outline"
-          (click)="pagarTodo(clientes.idCliente, clientes.state)"></ion-icon>
-      </ion-label> -->
-
-      <!-- <ion-item (click)="presentActionSheet(clientes)">
-        <ion-label>
-          <ion-label slot="start" class="ion-text-start">{{clientes.nombre}}</ion-label>
-          <ion-label slot="" class="ion-text-end">{{clientes.totalCompras |currency:'USD':'symbol':'1.0-0'
-            }}</ion-label>
-        </ion-label>
-      </ion-item> -->
-
-
-
-      <ion-item-options side="end">
-        <!-- <ion-item-options color="danger" (click)="  editCliente(idCliente: any) { }
-        (user)">
-          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-        </ion-item-options> -->
-      </ion-item-options>
     </ion-item-sliding>
   </ion-list>
 </ion-content>

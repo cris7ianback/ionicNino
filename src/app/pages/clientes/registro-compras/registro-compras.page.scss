@@ -1,0 +1,54 @@
+// .fade {
+//     animation: fade-animation 2s infinite;
+// }
+
+// @keyframes fade-animation {
+
+//     0%,
+//     100% {
+//         opacity: 1;
+//     }
+
+//     50% {
+//         opacity: 0.6;
+//     }
+// }
+
+// .pendiente-text {
+//     color: #e57373;
+//     /* Rojo suave */
+// }
+
+// .pagado-text {
+//     color: #81c784;
+//     /* Verde suave */
+// }
+
+
+
+
+/* Ajustar el padding y margen del ion-searchbar */
+ion-searchbar {
+    --padding-start: 40px;
+    /* Espacio suficiente para el icono de búsqueda */
+
+    .searchbar-input-container {
+        position: relative;
+    }
+
+    .searchbar-input {
+        padding-left: 40px;
+        /* Asegura que haya suficiente espacio para el icono */
+    }
+
+    .searchbar-icon {
+        position: absolute;
+        left: 10px;
+        /* Ajusta según sea necesario para alinear con el padding */
+        top: 50%;
+        transform: translateY(-50%);
+        /* Centra verticalmente el icono */
+        z-index: 1;
+        /* Asegura que el icono esté encima del campo de entrada */
+    }
+}

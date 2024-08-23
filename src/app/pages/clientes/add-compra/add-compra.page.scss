@@ -1,0 +1,21 @@
+ion-header {
+    --background: var(--ion-color-primary);
+    --color: white;
+}
+
+ion-toolbar {
+    ion-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+}
+
+ion-item {
+    margin-bottom: 10px;
+}
+
+ion-button {
+    ion-icon {
+        margin-right: 5px;
+    }
+}

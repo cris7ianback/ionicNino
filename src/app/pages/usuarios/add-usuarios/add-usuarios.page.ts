@@ -25,8 +25,7 @@ export class AddUsuariosPage implements OnInit {
     });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   async addUsuario() {
     if (this.formAddUsuario.valid) {

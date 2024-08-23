@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionSheetController, AlertController, LoadingController, ModalController, ToastController } from '@ionic/angular';
+import {
+  ActionSheetController,
+  AlertController,
+  LoadingController,
+  ModalController,
+  ToastController
+} from '@ionic/angular';
 import { UsuarioService } from 'src/app/service/usuario.service';
 import { AddUsuariosPage } from '../add-usuarios/add-usuarios.page';
 import { EditUsuariosPage } from '../edit-usuarios/edit-usuarios.page';
@@ -14,7 +20,7 @@ export class ListUsuariosPage implements OnInit {
 
   usuarios: any[] = [];
   loading?: HTMLIonLoadingElement;
-  textoBuscar: string = '';
+  filteredItems: any[] = [];
 
   constructor(
     private alertCtrl: AlertController,
@@ -22,8 +28,7 @@ export class ListUsuariosPage implements OnInit {
     private loadingCtrl: LoadingController,
     private modalCtrl: ModalController,
     private toastCtrl: ToastController,
-    private usuariosService: UsuarioService
-  ) { }
+    private usuariosService: UsuarioService) { }
 
   ngOnInit() {
     this.loadData();
@@ -33,6 +38,7 @@ export class ListUsuariosPage implements OnInit {
     try {
       const usuarios = await this.usuariosService.listUsuarios().toPromise();
       this.usuarios = usuarios;
+      this.filteredItems = [...this.usuarios];
     } catch (error) {
       console.error('Error al cargar los usuarios', error);
       await this.presentToast('Error al cargar los usuarios', 'danger');
@@ -53,10 +59,6 @@ export class ListUsuariosPage implements OnInit {
     }
   }
 
-  onSearchChange(event: any) {
-    this.textoBuscar = event.detail.value;
-  }
-
   async addUsuario() {
     const modal = await this.modalCtrl.create({
       component: AddUsuariosPage
@@ -72,7 +74,7 @@ export class ListUsuariosPage implements OnInit {
   async editUsuario(usuario: any) {
     const modal = await this.modalCtrl.create({
       component: EditUsuariosPage,
-      componentProps: { usuario }  // Enviar el usuario a editar
+      componentProps: { usuario }
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
@@ -172,4 +174,26 @@ export class ListUsuariosPage implements OnInit {
     });
     await toast.present();
   }
+
+  filterItems(event: any) {
+    const searchTerm = event.target.value.toLowerCase();
+
+    this.filteredItems = this.usuarios.filter(item => {
+      return item.nombre.toLowerCase().includes(searchTerm) ||
+        item.username.toLowerCase().includes(searchTerm);
+    });
+  }
+
+
+  async doRefresh(event: any) {
+    try {
+      await this.loadData();
+      event.target.complete();
+    } catch (error) {
+      console.error('Error al refrescar los datos', error);
+      event.target.complete();
+    }
+  }
+
+
 }
