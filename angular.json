@@ -12,7 +12,7 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
-          "options": {           
+          "options": {
             "outputPath": "www",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -31,7 +31,10 @@
                 "output": "./svg"
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss"],
+            "styles": [
+              "src/global.scss",
+              "src/theme/variables.scss"
+            ],
             "scripts": [
               "node_modules/apexcharts/dist/apexcharts.min.js"
             ]
@@ -113,7 +116,10 @@
                 "output": "./svg"
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss"],
+            "styles": [
+              "src/global.scss",
+              "src/theme/variables.scss"
+            ],
             "scripts": [
               "node_modules/apexcharts/dist/apexcharts.min.js"
             ]

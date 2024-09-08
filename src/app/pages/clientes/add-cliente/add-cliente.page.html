@@ -11,9 +11,10 @@
 </ion-header>
 
 <ion-content>
-  <form class=" ion-padding" [formGroup]="addformCliente">
+  <form class="ion-padding" [formGroup]="addformCliente">
     <ion-item>
-      <ion-input placeholder="Nombre Cliente" formControlName="nombre" type="text"></ion-input>
+      <ion-input placeholder="Nombre Cliente" formControlName="nombre" type="text"
+        oninput="this.value = this.value.toUpperCase()"></ion-input>
     </ion-item>
   </form>
 

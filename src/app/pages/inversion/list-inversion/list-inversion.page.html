@@ -1,9 +1,44 @@
-<app-header titulo="Inversión"></app-header>
+<app-header titulo="Gestión de Compras" (clickEvent)="addInversion()"></app-header>
 
-<ion-content [fullscreen]="true">
-  <!-- <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">listInversion</ion-title>
-    </ion-toolbar>
-  </ion-header> -->
+<ion-content class="ion-padding">
+
+  <!-- Refrescar contenido -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingText="Desliza hacia abajo para refrescar">
+      <!-- <ion-icon name="refresh-circle-outline" slot="start"></ion-icon> -->
+    </ion-refresher-content>
+  </ion-refresher>
+
+
+  <ion-searchbar placeholder="Buscar productos..." inputmode="text" (ionInput)="filterItems($event)" animated
+    [debounce]="250" showCancelButton="focus" color="light"></ion-searchbar>
+
+
+  <!-- Lista de compras -->
+  <ion-list lines="none">
+    <ion-item-sliding *ngFor="let inversion of filteredItems">
+
+      <ion-item (click)="presentActionSheet(inversion)" color="light" detail>
+        <ion-label>
+          <h2>{{ inversion.productoInversion }}</h2>
+          <p class="ion-text-wrap">
+            {{ inversion.valor | currency: 'USD': 'symbol': '1.0-0' }}
+          </p>
+        </ion-label>
+
+        <!-- Estado y Fecha -->
+        <ion-label slot="end" class="ion-text-right">
+          <ion-badge>
+            {{ inversion.cantidad}}
+          </ion-badge>
+          <p class="ion-no-margin ion-text-end ion-text-small">
+            <ion-icon name="calendar-outline" color="medium"></ion-icon>
+            {{ inversion.fecha | date: 'dd-MM-YYYY' }}
+          </p>
+        </ion-label>
+      </ion-item>
+
+
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>

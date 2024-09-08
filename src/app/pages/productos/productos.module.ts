@@ -10,6 +10,7 @@ import { ProductosPage } from './list-productos/productos.page';
 import { AddProductoPage } from './add-producto/add-producto.page';
 import { EditProductosPage } from './edit-productos/edit-productos.page';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
 
@@ -24,7 +25,8 @@ import { ComponentsModule } from 'src/app/components/components.module';
     IonicModule,
     ProductosPageRoutingModule,
     ReactiveFormsModule,
-    ComponentsModule
+    ComponentsModule,
+    PipesModule
   ],
 })
 export class ProductosPageModule { }

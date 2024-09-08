@@ -1,27 +1,33 @@
-#container {
+/* Estilo para los ítems del ion-card */
+ion-card {
+  margin: 8px;
+  /* Espacio entre los ítems */
   text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  /* Centrar el texto y el ícono */
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+/* Estilo para el contenido del ion-card */
+ion-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Centrar el contenido horizontalmente */
+  padding: 16px;
+  /* Espaciado interno */
 }
 
-#container p {
+/* Estilo para el ícono */
+ion-icon {
+  font-size: 48px;
+  /* Tamaño del ícono */
+  margin-bottom: 8px;
+  /* Espacio debajo del ícono */
+}
+
+/* Estilo para el nombre */
+h3 {
   font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
+  /* Tamaño del texto */
   margin: 0;
-}
-
-#container a {
-  text-decoration: none;
+  /* Eliminar margen */
 }

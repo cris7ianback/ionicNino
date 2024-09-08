@@ -1,0 +1,26 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancelar()">Cancelar</ion-button>
+    </ion-buttons>
+    <ion-title>Ingresar Cliente</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="addInversion()" [strong]="true" [disabled]="addformInversion.invalid">Registrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form class=" ion-padding" [formGroup]="addformInversion">
+    <ion-item>
+      <ion-input placeholder="Nombre Producto" formControlName="productoInversion" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input placeholder="Cantidad" formControlName="cantidad" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input placeholder="Valor" formControlName="valor" type="number"></ion-input>
+    </ion-item>
+  </form>
+
+</ion-content>

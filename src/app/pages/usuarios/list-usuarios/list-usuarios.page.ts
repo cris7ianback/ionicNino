@@ -1,11 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  ActionSheetController,
-  AlertController,
-  LoadingController,
-  ModalController,
-  ToastController
-} from '@ionic/angular';
+import { ActionSheetController, AlertController, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { UsuarioService } from 'src/app/service/usuario.service';
 import { AddUsuariosPage } from '../add-usuarios/add-usuarios.page';
 import { EditUsuariosPage } from '../edit-usuarios/edit-usuarios.page';

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, IonTabs } from '@ionic/angular';
 
 import { ListClientesPageRoutingModule } from './list-clientes-routing.module';
 import { ListClientesPage } from './list-clientes/list-clientes.page';
@@ -21,7 +21,8 @@ import { PipesModule } from "../../pipes/pipes.module";
         ListClientesPageRoutingModule,
         ComponentsModule,
         PipesModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+     
     ]
 })
 export class ListClientesPageModule { }

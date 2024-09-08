@@ -1,12 +1,11 @@
 import { ComprasService } from './../../../service/compras.service';
-import { RegistroComprasPage } from './../registro-compras/registro-compras.page';
 import { Component, OnInit } from '@angular/core';
 import { ClientesService } from '../../../service/clientes.service';
 import { AddClientePage } from '../add-cliente/add-cliente.page';
 import { ActionSheetController, AlertController, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { EditClientePage } from '../edit-cliente/edit-cliente.page';
-import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AllServices } from 'src/app/service/all.service';
 
 @Component({
   selector: 'app-list-clientes',
@@ -14,26 +13,28 @@ import { Router } from '@angular/router';
   styleUrls: ['./list-clientes.page.scss'],
 })
 export class ListClientesPage implements OnInit {
-  // Control para el texto de búsqueda
-  // searchControl: FormControl = new FormControl('');
-  // searchText: string = '';
+
   clientes: any[] = [];
   loading?: HTMLIonLoadingElement;
   filteredItems: any[] = [];
+  clientesConDeuda: any[] = [];
+  clientesSinDeuda: any[] = [];
+  selectedSegment: string = 'conDeuda';
+
+
   constructor(
     private actionSheetCtrl: ActionSheetController,
     private alertCtrl: AlertController,
     private clientesService: ClientesService,
     private loadingCtrl: LoadingController,
     private modalCtrl: ModalController,
-    private toastCtrl: ToastController,
+    private allService: AllServices,
     private router: Router,
     private comprasService: ComprasService) { }
 
   ngOnInit() {
     this.loadData();
   }
-
 
   async addCliente() {
     const modal = await this.modalCtrl.create({
@@ -79,11 +80,12 @@ export class ListClientesPage implements OnInit {
           handler: async () => {
             try {
               await this.clientesService.deleteCliente(cliente.idCliente).toPromise();
-              await this.presentToast('Usuario eliminado con éxito', 'success');
+              await this.allService.presentToast('Usuario eliminado con éxito', 'success');
+
               await this.loadData();
             } catch (error) {
               console.error('Error al eliminar usuario', error);
-              await this.presentToast('Error al eliminar usuario', 'danger');
+              await this.allService.presentToast('Error al eliminar usuario', 'danger');
             }
           }
         }
@@ -91,20 +93,6 @@ export class ListClientesPage implements OnInit {
     });
 
     await alert.present();
-  }
-
-  async listarClientes(): Promise<void> {
-
-    try {
-      const listClientes = await this.clientesService.listClientes().toPromise();
-      this.clientes = listClientes;
-      this.filteredItems = [...this.clientes]
-
-    } catch (error) {
-      console.error('Error al cargar los usuarios', error);
-      await this.presentToast('Error al cargar los clientes', 'danger');
-    }
-
   }
 
   async presentActionSheet(cliente: any) {
@@ -146,32 +134,6 @@ export class ListClientesPage implements OnInit {
     await actionSheet.present();
   }
 
-
-
-  async loadData() {
-    this.loading = await this.loadingCtrl.create({
-      message: 'Cargando...',
-      spinner: 'crescent'
-    });
-    await this.loading.present();
-
-    try {
-      await this.getClientes();
-    } finally {
-      await this.loading.dismiss();
-    }
-  }
-
-  async presentToast(message: string, color: 'success' | 'danger' | 'warning') {
-    const toast = await this.toastCtrl.create({
-      message,
-      duration: 2000,
-      color,
-    });
-    await toast.present();
-  }
-
-
   async getClientes(): Promise<void> {
     try {
       const clientes = await this.clientesService.listClientes().toPromise();
@@ -179,7 +141,7 @@ export class ListClientesPage implements OnInit {
       this.filteredItems = [...this.clientes]
     } catch (error) {
       console.error('Error al cargar los clientes', error);
-      await this.presentToast('Error al cargar los clientes', 'danger');
+      await this.allService.presentToast('Error al cargar los clientes', 'danger');
     }
   }
 
@@ -220,23 +182,56 @@ export class ListClientesPage implements OnInit {
 
   }
 
-  filterItems(event: any) {
-    const searchTerm = event.target.value.toLowerCase();
-
-    this.filteredItems = this.clientes.filter((item: any) => {
-      return item.nombre.toLowerCase().includes(searchTerm)
-    });
-  }
 
   async doRefresh(event: any) {
-    try {
-      await this.loadData();
-      event.target.complete();
+    await this.allService.refreshData(() => this.loadData(), event);
+  }
 
+
+  async loadData() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Cargando...',
+      spinner: 'crescent'
+    });
+    await loading.present();
+
+    try {
+      const clientes = await this.clientesService.listClientes().toPromise();
+      this.clientes = clientes;
+      this.separarClientes();
     } catch (error) {
-      console.error('Error al refrescar los datos', error);
-      event.target.complete(); 
+      console.error('Error al cargar los clientes', error);
+      await this.allService.presentToast('Error al cargar los clientes', 'danger');
+    } finally {
+      await loading.dismiss();
     }
   }
+
+  separarClientes() {
+    this.clientesConDeuda = this.clientes.filter(clientes => clientes.totalCompras > 0);
+    this.clientesSinDeuda = this.clientes.filter(clientes => clientes.totalCompras == 0);
+
+    console.log('Clientes con Deuda:', this.clientesConDeuda);
+    console.log('Clientes sin Deuda:', this.clientesSinDeuda);
+  }
+
+  segmentChanged(event: any) {
+    this.selectedSegment = event.detail.value;
+  }
+
+  filterItems(event: any, tipo: string) {
+    const searchTerm = event.target.value.toLowerCase();
+
+    if (tipo === 'conDeuda') {
+      this.clientesConDeuda = this.clientes.filter(cliente =>
+        cliente.totalCompras > 0 && cliente.nombre.toLowerCase().includes(searchTerm));
+    } else if (tipo === 'sinDeuda') {
+      this.clientesSinDeuda = this.clientes.filter(cliente =>
+        cliente.totalCompras === 0 && cliente.nombre.toLowerCase().includes(searchTerm));
+    }
+  }
+
+
+
 
 }

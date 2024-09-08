@@ -1,4 +1,4 @@
-<app-header titulo="Clientes" (clickEvent)="addCliente()"></app-header>
+<!-- <app-header titulo="Clientes" (clickEvent)="addCliente()"></app-header>
 <ion-content class="ion-padding">
 
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
@@ -17,6 +17,50 @@
         <ion-label slot="end"> {{clientes.totalCompras | currency:'USD':'symbol':'1.0-0'}}</ion-label>
       </ion-item>
 
+    </ion-item-sliding>
+  </ion-list>
+</ion-content> -->
+
+<app-header titulo="Clientes" (clickEvent)="addCliente()"></app-header>
+
+<ion-segment (ionChange)="segmentChanged($event)" value="conDeuda">
+  <ion-segment-button value="conDeuda">
+    <ion-label>Con Deuda</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="sinDeuda">
+    <ion-label>Sin Deuda</ion-label>
+  </ion-segment-button>
+</ion-segment>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingText="Desliza para refrescar"></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Sección Clientes con Deuda -->
+  <ion-list *ngIf="selectedSegment === 'conDeuda'">
+    <ion-searchbar placeholder="Buscar Clientes con Deuda" (ionInput)="filterItems($event, 'conDeuda')" animated
+      [debounce]="250"></ion-searchbar>
+    <ion-item-sliding *ngFor="let cliente of clientesConDeuda">
+      <ion-item>
+        <ion-icon name="cash-outline" slot="start" (click)="pagarTodo(cliente.idCliente, cliente.state)"
+          *ngIf="cliente.totalCompras != 0"></ion-icon>
+        <ion-label (click)="presentActionSheet(cliente)">{{ cliente.nombre }}</ion-label>
+        <ion-label slot="end">{{ cliente.totalCompras | currency:'USD':'symbol':'1.0-0' }}</ion-label>
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
+
+  <!-- Sección Clientes sin Deuda -->
+  <ion-list *ngIf="selectedSegment === 'sinDeuda'">
+    <ion-searchbar placeholder="Buscar Clientes sin Deuda" (ionInput)="filterItems($event, 'sinDeuda')" animated
+      [debounce]="250"></ion-searchbar>
+    <ion-item-sliding *ngFor="let cliente of clientesSinDeuda">
+      <ion-item>
+        <ion-icon name="cash-outline" slot="start" (click)="pagarTodo(cliente.idCliente, cliente.state)"
+          *ngIf="cliente.totalCompras != 0"></ion-icon>
+        <ion-label (click)="presentActionSheet(cliente)">{{ cliente.nombre }}</ion-label>
+      </ion-item>
     </ion-item-sliding>
   </ion-list>
 </ion-content>

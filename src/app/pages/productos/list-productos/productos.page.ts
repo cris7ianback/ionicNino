@@ -1,32 +1,33 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ModalController, ActionSheetController, AlertController } from '@ionic/angular';
+import { ModalController, ActionSheetController, AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { ProductosService } from 'src/app/pages/productos/productos.service';
 import { AddProductoPage } from '../add-producto/add-producto.page';
 import { EditProductosPage } from '../edit-productos/edit-productos.page';
+import { AllServices } from 'src/app/service/all.service';
 @Component({
   selector: 'app-productos',
   templateUrl: './productos.page.html',
   styleUrls: ['./productos.page.scss'],
 })
 export class ProductosPage implements OnInit {
-  data: any;
+
   listProductos: any;
-  initialData: any;
-  // producto: any
-  @Input() producto: any;
+  loading?: HTMLIonLoadingElement;
+  filteredItems: any[] = [];
+
   constructor(
+    private allServices: AllServices,
     private actionSheetCtrl: ActionSheetController,
     private alertCtrl: AlertController,
+    private loadingCtrl: LoadingController,
     private modalCtrl: ModalController,
     private productoService: ProductosService,
   ) { }
 
 
   ngOnInit() {
-
-    this.listarProductos();
+    this.loadData();
   }
-
 
   async addProducto() {
     const modal = await this.modalCtrl.create({
@@ -36,13 +37,34 @@ export class ProductosPage implements OnInit {
     return modal.present();
   }
 
-  listarProductos() {
-    this.productoService.listProductos().subscribe((res: any) => {
-      this.listProductos = res;
-    })
+  async getProductos(): Promise<void> {
+    try {
+      const listProductos = await this.productoService.listProductos()
+        .toPromise();
+      this.listProductos = listProductos;
+      console.log(this.listProductos)
+      this.filteredItems = [...this.listProductos];
+      await this.allServices.presentToast('Productos Cargados', 'success');
+
+    } catch (error) {
+      console.error('Error al cargar los usuarios', error);
+      await this.allServices.presentToast('Error al cargar los productos', 'danger');
+    }
   }
 
 
+  async loadData() {
+    this.loading = await this.loadingCtrl.create({
+      message: 'Cargando...',
+      spinner: 'crescent'
+    });
+    await this.loading.present();
+    try {
+      await this.getProductos();
+    } finally {
+      await this.loading.dismiss();
+    }
+  }
 
 
   async deleteProducto(productoId: string) {
@@ -55,7 +77,7 @@ export class ProductosPage implements OnInit {
           role: 'destructive',
           data: {
             action: 'delete',
-            productId: productoId, // Pass product ID for confirmation
+            productId: productoId,
           },
         },
         {
@@ -122,6 +144,27 @@ export class ProductosPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  async doRefresh(event: any) {
+
+    try {
+      await this.loadData();
+      event.target.complete();
+    } catch (error) {
+      console.error('Error al refrescar los datos', error);
+      event.target.complete();
+    }
+  }
+
+
+  filterItems(event: any) {
+    const searchTerm = event.target.value.toLowerCase();
+
+    this.filteredItems = this.listProductos.filter((item: any) => {
+      return item.nombre.toLowerCase().includes(searchTerm) ||
+        item.username.toLowerCase().includes(searchTerm);
+    });
   }
 
 }

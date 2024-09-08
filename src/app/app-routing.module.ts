@@ -57,7 +57,15 @@ const routes: Routes = [
   },
   {
     path: 'registrarCompra/:idCliente', component: RegistroComprasPage
+  },  {
+    path: 'add-inversion',
+    loadChildren: () => import('./pages/inversion/add-inversion/add-inversion.module').then( m => m.AddInversionPageModule)
   },
+  {
+    path: 'edit-inversion',
+    loadChildren: () => import('./pages/inversion/edit-inversion/edit-inversion.module').then( m => m.EditInversionPageModule)
+  },
+
 
 
 ];
